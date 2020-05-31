@@ -168,7 +168,7 @@ public class PropertiesManager {
     	try {
     		tenantId = tenantId.split(Pattern.quote("."))[1];
     		if(finCoeErpEnvName != null && !finCoeErpEnvName.isEmpty()){
-    			return httpProtocol+"://"+tenantId+"-"+finCoeErpEnvName+"."+finCoeErpDomainName+"/";
+    			return httpProtocol+"://"+finCoeErpEnvName+"."+finCoeErpDomainName+"/";
     		}else{
     			//considered as the production url
     			return httpProtocol+"://"+tenantId+"."+finCoeErpDomainName+"/";
