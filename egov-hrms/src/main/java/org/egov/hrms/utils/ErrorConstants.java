@@ -32,17 +32,42 @@ public class ErrorConstants {
 	public static final String HRMS_INVALID_DATE_OF_APPOINTMENT_DOB_CODE = "ERR_HRMS_INVALID_DATE_OF_APPOINTMENT_DOB";
 	public static final String HRMS_INVALID_DATE_OF_APPOINTMENT_DOB_MSG = "Employee date of appointment can not be before date of birth.";
 	
+	public static final String HRMS_INVALID_DATE_OF_SUPERANNUATION_DOB_CODE = "ERR_HRMS_INVALID_DATE_OF_SUPERANNUATION_DOB";
+	public static final String HRMS_INVALID_DATE_OF_SUPERANNUATION_DOB_MSG = "Employee date of superannuation can not be before date of birth.";
+	
+	public static final String HRMS_INVALID_DATE_OF_SUPERANNUATION_APPOINTMENT_CODE = "ERR_HRMS_INVALID_DATE_OF_SUPERANNUATION_APPOINTMENT";
+	public static final String HRMS_INVALID_DATE_OF_SUPERANNUATION_APPOINTMENT_MSG = "Employee date of superannuation can not be before date of appointment.";
+
+	
 	public static final String HRMS_INVALID_DOB_CODE = "ERR_HRMS_INVALID_DOB";
 	public static final String HRMS_INVALID_DOB_MSG = "Invalid date of birth entered.";
 	
 	public static final String HRMS_INVALID_CURRENT_ASSGN_CODE = "ERR_HRMS_INVALID_CURRENT_ASSGN";
 	public static final String HRMS_INVALID_CURRENT_ASSGN_MSG = "There should be exactly one current assignment for the employee.";
 	
+	public static final String HRMS_MINIMUM_CURRENT_ASSGN_CODE = "HRMS_MINIMUM_CURRENT_ASSGN_CODE";
+	public static final String HRMS_MINIMUM_CURRENT_ASSGN_CODE_MSG = "There should be at least one current assignment for the employee.";
+
+	
+	public static final String HRMS_INVALID_PRIMARY_ASSGN_CODE = "ERR_HRMS_INVALID_PRIMARY_ASSGN";
+	public static final String HRMS_INVALID_PRIMARY_ASSGN_MSG = "There should be exactly one primary assignment for the employee.";
+	
+	public static final String HRMS_MINIMUM_PRIMARY_ASSGN_CODE = "HRMS_MINIMUM_PRIMARY_ASSGN_CODE";
+	public static final String HRMS_MINIMUM_PRIMARY_ASSGN_MSG = "There should be at least one primary assignment for the employee.";
+
+	public static final String HRMS_INVALID_PRIMARY_ASSGN_CODE_2 = "HRMS_INVALID_PRIMARY_ASSGN_CODE_2";
+	public static final String HRMS_INVALID_PRIMARY_ASSGN_MSG_2 = "Primary assignment should always be a current assignment for the employee.";
+
+	
 	public static final String HRMS_OVERLAPPING_ASSGN_CODE = "ERR_HRMS_OVERLAPPING_ASSGN";
 	public static final String HRMS_OVERLAPPING_ASSGN_MSG = "There should not be overlapping period of assignments for the employee.";
 
 	public static final String HRMS_OVERLAPPING_ASSGN_CURRENT_CODE = "ERR_HRMS_OVERLAPPING_ASSGN_CURRENT";
-	public static final String HRMS_OVERLAPPING_ASSGN_CURRENT_MSG = "Period of assignements of employee should not be after  current assignment.";
+	public static final String HRMS_OVERLAPPING_ASSGN_CURRENT_MSG = "Period of assignements of employee should not be after current assignment.";
+	
+	public static final String HRMS_OVERLAPPING_ASSGN_PRIMARY_CODE = "ERR_HRMS_OVERLAPPING_ASSGN_PRIMARY";
+	public static final String HRMS_OVERLAPPING_ASSGN_PRIMARY_MSG = "Period of assignements of employee should not be after primary assignment.";
+
 
 	public static final String HRMS_INVALID_DEPT_CODE = "ERR_HRMS_INVALID_DEPT";
 	public static final String HRMS_INVALID_DEPT_MSG = "Invalid department of employee entered.";
@@ -57,7 +82,7 @@ public class ErrorConstants {
 	public static final String HRMS_INVALID_ASSIGNMENT_CURRENT_TO_DATE_MSG = "To Date field should be blank for current assignment of the employee.";
 
 	public static final String HRMS_OVERLAPPING_SERVICEHISTORY_CURRENT_CODE = "ERR_HRMS_OVERLAPPING_SERVICEHISTORY_CURRENT";
-	public static final String HRMS_OVERLAPPING_SERVICEHISTORY_CURRENT_MSG = "Period of service details of employee should not be after  current assignment!";
+	public static final String HRMS_OVERLAPPING_SERVICEHISTORY_CURRENT_MSG = "Period of service details of employee should not be after current assignment!";
 
 
 	public static final String HRMS_INVALID_ASSIGNMENT_NON_CURRENT_TO_DATE_CODE = "ERR_HRMS_INVALID_ASSIGNMENT_NOT_CURRENT_TO_DATE";

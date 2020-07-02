@@ -83,6 +83,11 @@ public class Assignment {
 	@NotNull
 	@JsonProperty("isCurrentAssignment")
 	private Boolean isCurrentAssignment;
+	
+	@NotNull
+	@JsonProperty("isPrimaryAssignment")
+	private Boolean isPrimaryAssignment;
+
 
 	private AuditDetails auditDetails;
 

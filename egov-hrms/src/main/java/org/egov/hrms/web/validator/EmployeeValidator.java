@@ -251,6 +251,7 @@ public class EmployeeValidator {
 	 * 3. Whether the employee status mentioned is valid.
 	 * 4. Whether the employee type mentioned is valid
 	 * 5. Whether the date of appointment of the employee is valid.
+	 * 6. Whether the date of superannuation of the employee is valid.
 	 * 
 	 * @param employee
 	 * @param errorMap
@@ -280,6 +281,12 @@ public class EmployeeValidator {
 				errorMap.put(ErrorConstants.HRMS_INVALID_DOB_CODE, ErrorConstants.HRMS_INVALID_DOB_MSG);
 			if(null != employee.getDateOfAppointment() && employee.getDateOfAppointment() < employee.getUser().getDob())
 				errorMap.put(ErrorConstants.HRMS_INVALID_DATE_OF_APPOINTMENT_DOB_CODE, ErrorConstants.HRMS_INVALID_DATE_OF_APPOINTMENT_DOB_MSG);
+			if(null != employee.getDateOfSuperannuation() && employee.getDateOfSuperannuation() < employee.getUser().getDob())
+				errorMap.put(ErrorConstants.HRMS_INVALID_DATE_OF_SUPERANNUATION_DOB_CODE, ErrorConstants.HRMS_INVALID_DATE_OF_SUPERANNUATION_DOB_MSG);
+			if(null != employee.getDateOfSuperannuation() && employee.getDateOfSuperannuation() < employee.getDateOfAppointment())
+				errorMap.put(ErrorConstants.HRMS_INVALID_DATE_OF_SUPERANNUATION_APPOINTMENT_CODE, ErrorConstants.HRMS_INVALID_DATE_OF_SUPERANNUATION_APPOINTMENT_MSG);
+
+
 		}
 	}
 	
@@ -297,9 +304,24 @@ public class EmployeeValidator {
 	 */
 	private void validateAssignments(Employee employee, Map<String, String> errorMap, Map<String, List<String>> mdmsData) {
 		List<Assignment> currentAssignments = employee.getAssignments().stream().filter(assignment -> assignment.getIsCurrentAssignment()).collect(Collectors.toList());
+		List<Assignment> primaryAssignments = employee.getAssignments().stream().filter(assignment -> assignment.getIsPrimaryAssignment()).collect(Collectors.toList());
+		
 		if(currentAssignments.size() != 1){
-			errorMap.put(ErrorConstants.HRMS_INVALID_CURRENT_ASSGN_CODE, ErrorConstants.HRMS_INVALID_CURRENT_ASSGN_MSG);
+			//errorMap.put(ErrorConstants.HRMS_INVALID_CURRENT_ASSGN_CODE, ErrorConstants.HRMS_INVALID_CURRENT_ASSGN_MSG);
 		}
+		
+		if(currentAssignments.size() < 1){
+			errorMap.put(ErrorConstants.HRMS_MINIMUM_CURRENT_ASSGN_CODE, ErrorConstants.HRMS_MINIMUM_CURRENT_ASSGN_CODE_MSG);
+		}
+
+		if(primaryAssignments.size() < 1){
+			errorMap.put(ErrorConstants.HRMS_MINIMUM_PRIMARY_ASSGN_CODE, ErrorConstants.HRMS_MINIMUM_PRIMARY_ASSGN_MSG);
+		}
+
+		if(primaryAssignments.size() > 1){
+			errorMap.put(ErrorConstants.HRMS_INVALID_PRIMARY_ASSGN_CODE, ErrorConstants.HRMS_INVALID_PRIMARY_ASSGN_MSG);
+		}
+		
 		employee.getAssignments().sort(new Comparator<Assignment>() {
 			@Override
 			public int compare(Assignment assignment1, Assignment assignment2) {
@@ -316,8 +338,12 @@ public class EmployeeValidator {
 			errorMap.put(ErrorConstants.HRMS_OVERLAPPING_ASSGN_CODE, ErrorConstants.HRMS_OVERLAPPING_ASSGN_MSG);
 
 		for(Assignment assignment: employee.getAssignments()) {
+			if (!assignment.getIsCurrentAssignment() && assignment.getIsPrimaryAssignment())
+				errorMap.put(ErrorConstants.HRMS_INVALID_PRIMARY_ASSGN_CODE_2,ErrorConstants.HRMS_INVALID_PRIMARY_ASSGN_MSG_2);			
 			if(!assignment.getIsCurrentAssignment() && !CollectionUtils.isEmpty(currentAssignments) && null != assignment.getToDate()&& currentAssignments.get(0).getFromDate() < assignment.getToDate() )
-				errorMap.put(ErrorConstants.HRMS_OVERLAPPING_ASSGN_CURRENT_CODE,ErrorConstants.HRMS_OVERLAPPING_ASSGN_CURRENT_MSG);
+				//errorMap.put(ErrorConstants.HRMS_OVERLAPPING_ASSGN_CURRENT_CODE,ErrorConstants.HRMS_OVERLAPPING_ASSGN_CURRENT_MSG);
+			if(!assignment.getIsPrimaryAssignment() && !CollectionUtils.isEmpty(primaryAssignments) && null != assignment.getToDate()&& primaryAssignments.get(0).getFromDate() < assignment.getToDate() )
+				errorMap.put(ErrorConstants.HRMS_OVERLAPPING_ASSGN_PRIMARY_CODE,ErrorConstants.HRMS_OVERLAPPING_ASSGN_PRIMARY_MSG);
 		    if(!mdmsData.get(HRMSConstants.HRMS_MDMS_DEPT_CODE).contains(assignment.getDepartment()))
 				errorMap.put(ErrorConstants.HRMS_INVALID_DEPT_CODE, ErrorConstants.HRMS_INVALID_DEPT_MSG);
 			if(!mdmsData.get(HRMSConstants.HRMS_MDMS_DESG_CODE).contains(assignment.getDesignation()))
@@ -331,7 +357,7 @@ public class EmployeeValidator {
 			if(employee.getUser().getDob()!=null )
 				if(assignment.getFromDate() < employee.getUser().getDob() || (null != assignment.getToDate() && assignment.getToDate() < employee.getUser().getDob()))
                 	errorMap.put(ErrorConstants.HRMS_INVALID_ASSIGNMENT_DATES_CODE, ErrorConstants.HRMS_INVALID_ASSIGNMENT_DATES_MSG);
-			if(null != employee.getDateOfAppointment() && assignment.getFromDate() <	 employee.getDateOfAppointment())
+			if(null != employee.getDateOfAppointment() && assignment.getFromDate() < employee.getDateOfAppointment())
 				errorMap.put(ErrorConstants.HRMS_INVALID_ASSIGNMENT_DATES_APPOINTMENT_CODE, ErrorConstants.HRMS_INVALID_ASSIGNMENT_DATES_APPOINTMENT_MSG);
 
         }
