@@ -1,12 +1,10 @@
 package org.egov.web.notification.contract;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
 
 @Getter
 @Builder
@@ -15,8 +13,7 @@ import java.util.Date;
 public class RequestInfo {
     private String apiId;
     private String ver;
-    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss", timezone = "IST")
-    private Date ts;
+    private Long ts;
     private String action;
     private String did;
     private String key;
