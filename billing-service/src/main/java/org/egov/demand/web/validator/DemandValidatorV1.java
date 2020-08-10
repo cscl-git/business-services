@@ -276,6 +276,12 @@ public class DemandValidatorV1 {
 
 		if (taxPeriods != null) {
 
+			for(TaxPeriod tax : taxPeriods) {
+				log.info("TaxPeriod Service {}, fromDate {}, toDate {}, financialYear {}",tax.getService(),tax.getFromDate(),tax.getToDate(),tax.getFinancialYear());
+				log.info("Demand fromdate {}, toDate {}",demand.getTaxPeriodFrom(),demand.getTaxPeriodTo());
+				log.info("Comparision of TaxPeriod fromDate {}, TaxPeriod toDate",
+						demand.getTaxPeriodFrom().compareTo(tax.getFromDate()), demand.getTaxPeriodTo().compareTo(tax.getToDate()));
+			}
 			/*
 			 * looping the list of business services to check if the given demand periods gets match
 			 */
