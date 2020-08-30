@@ -219,16 +219,17 @@ public class MicroServiceUtilImpl implements MicroServiceUtil{
 		}
 		try {
 			if(finSerMdms.getFinanceServiceMdmsData() != null){
-				if(ONLINE_INSTRUMENT_TYPE.equals(instrumentType)){
-					/* Online instrument type mapped at ULB level*/
+				//Commented for Chandigarh 
+				/*if(ONLINE_INSTRUMENT_TYPE.equals(instrumentType)){
+					// Online instrument type mapped at ULB level
 					List<OnlineGLCodeMapping> list = mapper.convertValue(JsonPath.read(finSerMdms.getFinanceServiceMdmsData(), "$.MdmsRes.FinanceModule.OnlineGLCodeMapping"),new TypeReference<List<OnlineGLCodeMapping>>(){});
 					List<OnlineGLCodeMapping> collect = list.stream().filter(inst -> inst.getServicecode().equals(businessCode)).collect(Collectors.toList());
 					return !collect.isEmpty() ? collect.get(0).getGlcode() : null;
-				}else{
+				}else{*/
 					List<InstrumentGlCodeMapping> list = mapper.convertValue(JsonPath.read(finSerMdms.getFinanceServiceMdmsData(), "$.MdmsRes.FinanceModule.InstrumentGLcodeMapping"),new TypeReference<List<InstrumentGlCodeMapping>>(){});
 					List<InstrumentGlCodeMapping> collect = list.stream().filter(inst -> inst.getInstrumenttype().equalsIgnoreCase(instrumentType)).collect(Collectors.toList());
 					return !collect.isEmpty() ? collect.get(0).getGlcode() : null;
-				}
+				//}
 			}
 		} catch (Exception e) {
 			throw new VoucherCustomException(ProcessStatus.FAILED,"Error while parsing mdms data for InstrumentGLcodeMapping/OnlineGLCodeMapping master. Check the business/account head mapping json file."+e.getMessage());
