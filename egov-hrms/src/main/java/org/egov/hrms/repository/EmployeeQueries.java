@@ -12,7 +12,7 @@ public class EmployeeQueries {
 			+ "assignment.position as assignment_position, assignment.department as assignment_department, assignment.designation as assignment_designation, "
 			+ "assignment.fromdate as assignment_fromdate, assignment.todate as assignment_todate, assignment.govtordernumber as assignment_govtordernumber, "
 			+ "assignment.reportingto as assignment_reportingto, assignment.ishod as assignment_ishod, assignment.iscurrentassignment as assignment_iscurrentassignment, "
-			+ "assignment.tenantid as assignment_tenantid, "
+			+ "assignment.tenantid as assignment_tenantid,assignment.postdetailid as assignment_postdetailid, "
 			+ "assignment.createdby as assignment_createdby, assignment.createddate as assignment_createddate, assignment.lastmodifiedby as assignment_lastmodifiedby, "
 			+ "assignment.lastmodifieddate as assignment_lastmodifieddate, education.uuid as education_uuid, education.qualification as education_qualification, "
 			+ "education.stream as education_stream, education.yearofpassing as education_yearofpassing, education.university as education_university, "

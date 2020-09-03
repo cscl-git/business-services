@@ -87,7 +87,9 @@ public class Assignment {
 	@NotNull
 	@JsonProperty("isPrimaryAssignment")
 	private Boolean isPrimaryAssignment;
-
+	
+	@JsonProperty("postDetailId")
+	private Long postDetailId ;
 
 	private AuditDetails auditDetails;
 
