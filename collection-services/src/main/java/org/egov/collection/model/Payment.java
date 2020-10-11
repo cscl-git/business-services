@@ -89,6 +89,10 @@ public class Payment {
     @Size(max=1024)
     @JsonProperty("payerAddress")
     private String payerAddress = null;
+    
+    @Size(max=1024)
+    @JsonProperty("narration")
+    private String narration = null;
 
     @Size(max=64)
     @JsonProperty("payerEmail")

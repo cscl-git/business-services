@@ -56,11 +56,11 @@ public class PaymentQueryBuilder {
     public static final String INSERT_PAYMENT_SQL = "INSERT INTO egcl_payment(" +
             "            id, tenantid, totaldue, totalamountpaid, transactionnumber, transactiondate, " +
             "            paymentmode, instrumentdate, instrumentnumber,instrumentStatus, ifsccode, additionaldetails, " +
-            "            paidby, mobilenumber, payername, payeraddress, payeremail, payerid, " +
+            "            paidby, mobilenumber, payername, payeraddress,narration, payeremail, payerid, " +
             "            paymentstatus, createdby, createdtime, lastmodifiedby, lastmodifiedtime)" +
             "            VALUES (:id, :tenantid, :totaldue, :totalamountpaid, :transactionnumber, :transactiondate, " +
             "            :paymentmode, :instrumentdate, :instrumentnumber, :instrumentStatus, :ifsccode, :additionaldetails," +
-            "            :paidby, :mobilenumber, :payername, :payeraddress, :payeremail, :payerid, " +
+            "            :paidby, :mobilenumber, :payername, :payeraddress,:narration, :payeremail, :payerid, " +
             "            :paymentstatus, :createdby, :createdtime, :lastmodifiedby, :lastmodifiedtime);";
 
 
@@ -191,6 +191,7 @@ public class PaymentQueryBuilder {
         sqlParameterSource.addValue("mobilenumber", payment.getMobileNumber());
         sqlParameterSource.addValue("payername", payment.getPayerName());
         sqlParameterSource.addValue("payeraddress", payment.getPayerAddress());
+        sqlParameterSource.addValue("narration", payment.getNarration());
         sqlParameterSource.addValue("payeremail", payment.getPayerEmail());
         sqlParameterSource.addValue("payerid", payment.getPayerId());
         sqlParameterSource.addValue("paymentstatus", payment.getPaymentStatus().toString());
