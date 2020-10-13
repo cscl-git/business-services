@@ -72,6 +72,9 @@ public class PaymentRowMapper implements ResultSetExtractor<List<Payment>> {
                 String filesoreId = rs.getString("filestoreid");
                 String createdBy = rs.getString("py_createdBy");
 
+		//Added for narration
+	        String narration = rs.getString("narration");
+
                 Long createdDate = rs.getLong("py_createdTime");
                 if(rs.wasNull()){createdDate = null;}
 
@@ -97,6 +100,7 @@ public class PaymentRowMapper implements ResultSetExtractor<List<Payment>> {
                         .instrumentStatus(InstrumentStatusEnum.fromValue(instrumentStatus))
                         .ifscCode(ifscCode)
                         .paidBy(paidBy)
+			.narration(narration)
                         .mobileNumber(mobileNumber)
                         .payerName(payerName)
                         .payerAddress(payerAddress)

@@ -56,6 +56,7 @@ import org.egov.collection.service.PaymentService;
 import org.egov.collection.service.PaymentWorkflowService;
 import org.egov.collection.web.contract.PaymentWorkflowRequest;
 import org.egov.collection.web.contract.factory.RequestInfoWrapper;
+import org.egov.collection.web.contract.factory.RequestInfoSearchWrapper;
 import org.egov.collection.web.contract.factory.ResponseInfoFactory;
 import org.egov.common.contract.request.RequestInfo;
 import org.egov.common.contract.response.ResponseInfo;
@@ -87,9 +88,13 @@ public class PaymentController {
     @RequestMapping(value = "/_search", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<PaymentResponse> search(@ModelAttribute PaymentSearchCriteria paymentSearchCriteria,
-                                             @RequestBody @Valid final RequestInfoWrapper requestInfoWrapper) {
+                                             @RequestBody @Valid final RequestInfoSearchWrapper requestInfoWrapper) {
 
         final RequestInfo requestInfo = requestInfoWrapper.getRequestInfo();
+	final Set<String> idsList= requestInfoWrapper.getIds();
+        if(idsList!=null && !idsList.isEmpty()) {
+    		paymentSearchCriteria.setIds(idsList);
+        }	
 
 		/*
 		 * Only Applicable if there is no receipt number search
