@@ -47,8 +47,10 @@ import javax.validation.Valid;
 
 import org.egov.collection.service.RemittanceService;
 import org.egov.collection.web.contract.Remittance;
+import org.egov.collection.web.contract.RemittanceDepositWorkDetail;
 import org.egov.collection.web.contract.RemittanceRequest;
 import org.egov.collection.web.contract.RemittanceResponse;
+import org.egov.collection.web.contract.RemittanceResponseDepositWorkDetails;
 import org.egov.collection.web.contract.RemittanceSearchRequest;
 import org.egov.collection.web.contract.factory.RequestInfoWrapper;
 import org.egov.collection.web.contract.factory.ResponseInfoFactory;
@@ -101,7 +103,27 @@ public class RemittanceController {
 
         return getSuccessResponse(Collections.singletonList(remittanceInfo), remittanceRequest.getRequestInfo());
     }
+    
+    @RequestMapping(value = "/_getdepositWork", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<RemittanceResponseDepositWorkDetails> getdepositWork(@ModelAttribute RemittanceSearchRequest remittanceSearchRequest,
+            @RequestBody @Valid final RequestInfoWrapper requestInfoWrapper) {
 
+        final RequestInfo requestInfo = requestInfoWrapper.getRequestInfo();
+       List<RemittanceDepositWorkDetail> remittances = remittanceService.getRemittancesDepositWork(requestInfo, remittanceSearchRequest);
+        return getSuccessResponse2(remittances, requestInfo);
+    }
+
+    private ResponseEntity<RemittanceResponseDepositWorkDetails> getSuccessResponse2(List<RemittanceDepositWorkDetail> remittances,
+            RequestInfo requestInfo) {
+        final ResponseInfo responseInfo = ResponseInfoFactory
+                .createResponseInfoFromRequestInfo(requestInfo, true);
+        responseInfo.setStatus(HttpStatus.OK.toString());
+
+        RemittanceResponseDepositWorkDetails remittanceResponse = new RemittanceResponseDepositWorkDetails(responseInfo, remittances);
+        return new ResponseEntity<>(remittanceResponse, HttpStatus.OK);
+    }
+    
     private ResponseEntity<RemittanceResponse> getSuccessResponse(List<Remittance> remittances,
             RequestInfo requestInfo) {
         final ResponseInfo responseInfo = ResponseInfoFactory
