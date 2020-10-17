@@ -19,5 +19,9 @@ public class RequestInfoSearchWrapper {
 	private RequestInfo requestInfo;
 	
 	@JsonProperty(value="searchIds")
-	private Set<String> ids;	
+	private Set<String> ids;
+	
+	@JsonProperty(value="receiptNumbers")
+	private Set<String> receiptNumbers;
+	
 }

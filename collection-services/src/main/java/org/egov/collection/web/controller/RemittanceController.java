@@ -42,6 +42,7 @@ package org.egov.collection.web.controller;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -52,6 +53,7 @@ import org.egov.collection.web.contract.RemittanceRequest;
 import org.egov.collection.web.contract.RemittanceResponse;
 import org.egov.collection.web.contract.RemittanceResponseDepositWorkDetails;
 import org.egov.collection.web.contract.RemittanceSearchRequest;
+import org.egov.collection.web.contract.factory.RequestInfoSearchWrapper;
 import org.egov.collection.web.contract.factory.RequestInfoWrapper;
 import org.egov.collection.web.contract.factory.ResponseInfoFactory;
 import org.egov.common.contract.request.RequestInfo;
@@ -107,9 +109,16 @@ public class RemittanceController {
     @RequestMapping(value = "/_getdepositWork", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<RemittanceResponseDepositWorkDetails> getdepositWork(@ModelAttribute RemittanceSearchRequest remittanceSearchRequest,
-            @RequestBody @Valid final RequestInfoWrapper requestInfoWrapper) {
+            @RequestBody @Valid final RequestInfoSearchWrapper requestInfoWrapper) {
 
         final RequestInfo requestInfo = requestInfoWrapper.getRequestInfo();
+        final Set<String> receiptNumbers=requestInfoWrapper.getReceiptNumbers();
+        
+		if(receiptNumbers!=null && receiptNumbers!=null) {
+			remittanceSearchRequest.setReceiptNumbers(receiptNumbers);
+		}
+        
+        
        List<RemittanceDepositWorkDetail> remittances = remittanceService.getRemittancesDepositWork(requestInfo, remittanceSearchRequest);
         return getSuccessResponse2(remittances, requestInfo);
     }
