@@ -169,7 +169,8 @@ public class PaymentValidator {
         }
 
         if (paymentMode.equalsIgnoreCase(InstrumentTypesEnum.CARD.name()) || paymentMode.equalsIgnoreCase(InstrumentTypesEnum.ONLINE.name())
-                || paymentMode.equalsIgnoreCase(ONLINE_NEFT.name()) || paymentMode.equalsIgnoreCase(ONLINE_RTGS.name())) {
+                || paymentMode.equalsIgnoreCase(InstrumentTypesEnum.POSMOHBD.name()) || paymentMode.equalsIgnoreCase(InstrumentTypesEnum.POSMOHCATTLE.name()) || paymentMode.equalsIgnoreCase(InstrumentTypesEnum.POSMOHSLH.name())
+			|| paymentMode.equalsIgnoreCase(ONLINE_NEFT.name()) || paymentMode.equalsIgnoreCase(ONLINE_RTGS.name())) {
             if (org.apache.commons.lang3.StringUtils.isEmpty(payment.getTransactionNumber()))
                 errorMap.put("INVALID_TXN_NUMBER", "Transaction Number is mandatory for Card and online payment");
 

@@ -201,6 +201,9 @@ public class CollectionServiceConstants {
     public static final String INSTRUMENT_TYPE_CHEQUE = "Cheque";
     public static final String INSTRUMENT_TYPE_DD = "DD";
     public static final String INSTRUMENT_TYPE_CARD = "Card";
+    public static final String INSTRUMENT_TYPE_POSMOHBD = "POSMOHBD";
+    public static final String INSTRUMENT_TYPE_POSMOHCATTLE = "POSMOHCATTLE";
+    public static final String INSTRUMENT_TYPE_POSMOHSLH = "POSMOHSLH";
 
     public static final String MANUAL_RECEIPT_DETAILS_REQUIRED_CONFIG_KEY = "MANUAL_RECEIPT_DETAILS_REQUIRED_OR_NOT";
 

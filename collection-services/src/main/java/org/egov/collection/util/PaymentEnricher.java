@@ -11,6 +11,9 @@ import static org.egov.collection.model.enums.InstrumentTypesEnum.CASH;
 import static org.egov.collection.model.enums.InstrumentTypesEnum.ONLINE;
 import static org.egov.collection.model.enums.PaymentModeEnum.ONLINE_NEFT;
 import static org.egov.collection.model.enums.PaymentModeEnum.ONLINE_RTGS;
+import static org.egov.collection.model.enums.InstrumentTypesEnum.POSMOHBD;
+import static org.egov.collection.model.enums.InstrumentTypesEnum.POSMOHCATTLE;
+import static org.egov.collection.model.enums.InstrumentTypesEnum.POSMOHSLH;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -162,7 +165,8 @@ public class PaymentEnricher {
 		List<PaymentDetail> paymentDetails = payment.getPaymentDetails();
 		String paymentMode = payment.getPaymentMode().toString();
 
-		if (paymentMode.equalsIgnoreCase(ONLINE.name()) || paymentMode.equalsIgnoreCase(CARD.name()) ||
+		if (paymentMode.equalsIgnoreCase(ONLINE.name()) || paymentMode.equalsIgnoreCase(CARD.name())
+			|| paymentMode.equalsIgnoreCase(POSMOHBD.name()) || paymentMode.equalsIgnoreCase(POSMOHCATTLE.name()) || paymentMode.equalsIgnoreCase(POSMOHSLH.name()) ||
 			paymentMode.equalsIgnoreCase(ONLINE_NEFT.name()) || paymentMode.equalsIgnoreCase(ONLINE_RTGS.name()))
 			payment.setPaymentStatus(PaymentStatusEnum.DEPOSITED);
 		else
@@ -188,14 +192,15 @@ public class PaymentEnricher {
 					payment.getTenantId());
 			payment.setTransactionNumber(transactionId);
 		}
-		if (paymentMode.equalsIgnoreCase(ONLINE.name()) || paymentMode.equalsIgnoreCase(CARD.name()) ||
+		if (paymentMode.equalsIgnoreCase(ONLINE.name()) || paymentMode.equalsIgnoreCase(CARD.name()) || paymentMode.equalsIgnoreCase(POSMOHBD.name()) || paymentMode.equalsIgnoreCase(POSMOHCATTLE.name()) || paymentMode.equalsIgnoreCase(POSMOHSLH.name()) ||
 				paymentMode.equalsIgnoreCase(ONLINE_NEFT.name()) || paymentMode.equalsIgnoreCase(ONLINE_RTGS.name()))
 			payment.setInstrumentStatus(InstrumentStatusEnum.REMITTED);
 		else
 			payment.setInstrumentStatus(InstrumentStatusEnum.APPROVED);
 
 		payment.setTransactionDate(new Date().getTime());
-		if(paymentMode.equalsIgnoreCase(CASH.name()) || paymentMode.equalsIgnoreCase(CARD.name()) || paymentMode.equalsIgnoreCase(ONLINE.name())
+		if(paymentMode.equalsIgnoreCase(CASH.name()) || paymentMode.equalsIgnoreCase(CARD.name()) || paymentMode.equalsIgnoreCase(ONLINE.name()) 
+				|| paymentMode.equalsIgnoreCase(POSMOHBD.name()) || paymentMode.equalsIgnoreCase(POSMOHCATTLE.name()) || paymentMode.equalsIgnoreCase(POSMOHSLH.name())
 				|| paymentMode.equalsIgnoreCase(ONLINE_NEFT.name()) || paymentMode.equalsIgnoreCase(ONLINE_RTGS.name())) {
 			payment.setInstrumentDate(payment.getTransactionDate());
 		}
