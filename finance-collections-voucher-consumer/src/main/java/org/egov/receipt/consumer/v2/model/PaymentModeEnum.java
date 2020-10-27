@@ -48,6 +48,9 @@ public enum PaymentModeEnum {
     CHEQUE("CHEQUE"),
     DD("DD"),
     ONLINE("ONLINE"),
+    POSMOHBD("POSMOHBD"),
+    POSMOHCATTLE("POSMOHCATTLE"),
+    POSMOHSLH("POSMOHSLH"),
     CARD("CARD");
 
 

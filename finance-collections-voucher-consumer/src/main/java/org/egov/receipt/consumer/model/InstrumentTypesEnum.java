@@ -40,7 +40,7 @@
 package org.egov.receipt.consumer.model;
 
 public enum InstrumentTypesEnum {
-    CASH, CHEQUE, DD, ONLINE, CARD;
+    CASH, CHEQUE, DD, ONLINE, CARD, POSMOHBD, POSMOHCATTLE, POSMOHSLH;
 
     public static boolean contains(String test) {
         for (InstrumentTypesEnum val : InstrumentTypesEnum.values()) {
