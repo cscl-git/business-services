@@ -55,7 +55,6 @@ import org.egov.collection.model.enums.PaymentStatusEnum;
 import org.egov.collection.service.PaymentService;
 import org.egov.collection.service.PaymentWorkflowService;
 import org.egov.collection.web.contract.PaymentWorkflowRequest;
-import org.egov.collection.web.contract.factory.RequestInfoWrapper;
 import org.egov.collection.web.contract.factory.RequestInfoSearchWrapper;
 import org.egov.collection.web.contract.factory.ResponseInfoFactory;
 import org.egov.common.contract.request.RequestInfo;
@@ -84,17 +83,21 @@ public class PaymentController {
 
     @Value("#{'${search.ignore.status}'.split(',')}")
     private List<String> searchIgnoreStatus;
-
+    
     @RequestMapping(value = "/_search", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<PaymentResponse> search(@ModelAttribute PaymentSearchCriteria paymentSearchCriteria,
                                              @RequestBody @Valid final RequestInfoSearchWrapper requestInfoWrapper) {
 
         final RequestInfo requestInfo = requestInfoWrapper.getRequestInfo();
-	final Set<String> idsList= requestInfoWrapper.getIds();
+        final Set<String> idsList= requestInfoWrapper.getIds();
         if(idsList!=null && !idsList.isEmpty()) {
     		paymentSearchCriteria.setIds(idsList);
-        }	
+        }
+        
+        if(requestInfoWrapper.getReceiptNumbers()!=null && !requestInfoWrapper.getReceiptNumbers().isEmpty()) {
+    		paymentSearchCriteria.setReceiptNumbers(requestInfoWrapper.getReceiptNumbers());
+        }
 
 		/*
 		 * Only Applicable if there is no receipt number search
@@ -114,6 +117,27 @@ public class PaymentController {
             paymentSearchCriteria.setStatus(defaultStatus);
         }
         List<Payment> payments = paymentService.getPayments(requestInfo, paymentSearchCriteria);
+
+        return getSuccessResponse(payments, requestInfo);
+    }
+
+    @RequestMapping(value = "/_cancel", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<PaymentResponse> cancel(@ModelAttribute PaymentSearchCriteria paymentSearchCriteria,
+                                             @RequestBody @Valid final RequestInfoSearchWrapper requestInfoWrapper) {
+
+        final RequestInfo requestInfo = requestInfoWrapper.getRequestInfo();
+        final Set<String> idsList= requestInfoWrapper.getIds();
+                
+        if(idsList!=null && !idsList.isEmpty()) {
+    		paymentSearchCriteria.setIds(idsList);
+        }
+        
+        if(requestInfoWrapper.getReceiptNumbers()!=null && !requestInfoWrapper.getReceiptNumbers().isEmpty()) {
+    		paymentSearchCriteria.setReceiptNumbers(requestInfoWrapper.getReceiptNumbers());
+        }
+
+        List<Payment> payments = paymentService.updatePaymentStatus(requestInfo, paymentSearchCriteria, PaymentStatusEnum.CANCELLED);
 
         return getSuccessResponse(payments, requestInfo);
     }

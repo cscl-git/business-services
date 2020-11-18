@@ -107,7 +107,22 @@ public class Payment {
 
     @JsonProperty("fileStoreId")
     private String fileStoreId;
+    
+    @Size(max=100)
+    @JsonProperty("bankName")
+    private String bankName = null;
 
+    @Size(max=100)
+    @JsonProperty("bankBranch")
+    private String bankBranch = null;
+    
+    @Size(max=100)
+    @JsonProperty("subdivison")
+    private String subdivison = null;
+    
+    @Size(max=100)
+    @JsonProperty("gstno")
+    private String gstno = null;
 
     public Payment addpaymentDetailsItem(PaymentDetail paymentDetail) {
         if (this.paymentDetails == null) {
@@ -116,8 +131,4 @@ public class Payment {
         this.paymentDetails.add(paymentDetail);
         return this;
     }
-
-
-
-
 }

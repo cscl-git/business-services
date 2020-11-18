@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
+import org.egov.collection.model.AuditDetails;
 import org.egov.collection.model.Payment;
 import org.egov.collection.model.PaymentDetail;
 import org.egov.collection.model.PaymentSearchCriteria;
@@ -57,11 +58,11 @@ public class PaymentQueryBuilder {
             "            id, tenantid, totaldue, totalamountpaid, transactionnumber, transactiondate, " +
             "            paymentmode, instrumentdate, instrumentnumber,instrumentStatus, ifsccode, additionaldetails, " +
             "            paidby, mobilenumber, payername, payeraddress,narration, payeremail, payerid, " +
-            "            paymentstatus, createdby, createdtime, lastmodifiedby, lastmodifiedtime)" +
+            "            paymentstatus, createdby, createdtime, lastmodifiedby, lastmodifiedtime, bank_name, bank_branch, sub_divison, gst_no)" +
             "            VALUES (:id, :tenantid, :totaldue, :totalamountpaid, :transactionnumber, :transactiondate, " +
             "            :paymentmode, :instrumentdate, :instrumentnumber, :instrumentStatus, :ifsccode, :additionaldetails," +
             "            :paidby, :mobilenumber, :payername, :payeraddress,:narration, :payeremail, :payerid, " +
-            "            :paymentstatus, :createdby, :createdtime, :lastmodifiedby, :lastmodifiedtime);";
+            "            :paymentstatus, :createdby, :createdtime, :lastmodifiedby, :lastmodifiedtime, :bank_name, :bank_branch, :sub_divison, :gst_no);";
 
 
     public static final String INSERT_PAYMENTDETAIL_SQL = "INSERT INTO egcl_paymentdetail(" +
@@ -139,6 +140,8 @@ public class PaymentQueryBuilder {
             " payeraddress=:payeraddress, payeremail=:payeremail, payerid=:payerid,paymentstatus=:paymentstatus, createdby=:createdby, createdtime=:createdtime," +
             " lastmodifiedby=:lastmodifiedby, lastmodifiedtime=:lastmodifiedtime WHERE id=:id ";
 
+    public static final String UPDATE_PAYMENT_STATUS_SQL = "UPDATE egcl_payment SET paymentstatus=:paymentstatus, lastmodifiedby=:lastmodifiedby, lastmodifiedtime=:lastmodifiedtime WHERE id=:id ";
+
     public static final String UPDATE_PAYMENTDETAIL_SQL ="UPDATE egcl_paymentdetail SET additionaldetails=:additionaldetails, createdby=:createdby," +
             "createdtime=:createdtime, lastmodifiedby=:lastmodifiedby, lastmodifiedtime=:lastmodifiedtime" +
             "WHERE id=:id;";
@@ -200,6 +203,11 @@ public class PaymentQueryBuilder {
         sqlParameterSource.addValue("lastmodifiedby", payment.getAuditDetails().getLastModifiedBy());
         sqlParameterSource.addValue("lastmodifiedtime", payment.getAuditDetails().getLastModifiedTime());
 
+        sqlParameterSource.addValue("bank_name", payment.getBankName());
+        sqlParameterSource.addValue("bank_branch", payment.getBankBranch());
+        sqlParameterSource.addValue("sub_divison", payment.getSubdivison());
+        sqlParameterSource.addValue("gst_no", payment.getGstno());
+        
         return sqlParameterSource;
 
     }
@@ -511,6 +519,18 @@ public class PaymentQueryBuilder {
 
 
     // Payment update
+
+    public static MapSqlParameterSource getParametersForPaymentUpdateStatus(Payment payment, AuditDetails auditDetails) {
+        MapSqlParameterSource sqlParameterSource = new MapSqlParameterSource();
+
+        sqlParameterSource.addValue("id", payment.getId());
+        sqlParameterSource.addValue("paymentstatus", payment.getPaymentStatus().toString());
+        sqlParameterSource.addValue("lastmodifiedby", auditDetails.getLastModifiedBy());
+        sqlParameterSource.addValue("lastmodifiedtime", auditDetails.getLastModifiedTime());
+
+        return sqlParameterSource;
+
+    }
 
     public static MapSqlParameterSource getParametersForPaymentUpdate(Payment payment) {
         MapSqlParameterSource sqlParameterSource = new MapSqlParameterSource();

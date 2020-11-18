@@ -71,6 +71,12 @@ public class PaymentRowMapper implements ResultSetExtractor<List<Payment>> {
                 String paymentStatus = rs.getString("paymentStatus");
                 String filesoreId = rs.getString("filestoreid");
                 String createdBy = rs.getString("py_createdBy");
+                
+
+                String bankName = rs.getString("bank_name");
+                String bankBranch = rs.getString("bank_branch");
+                String subdivison = rs.getString("sub_divison");
+                String gstno = rs.getString("gst_no");
 
 		//Added for narration
 	        String narration = rs.getString("narration");
@@ -100,7 +106,7 @@ public class PaymentRowMapper implements ResultSetExtractor<List<Payment>> {
                         .instrumentStatus(InstrumentStatusEnum.fromValue(instrumentStatus))
                         .ifscCode(ifscCode)
                         .paidBy(paidBy)
-			.narration(narration)
+                        .narration(narration)
                         .mobileNumber(mobileNumber)
                         .payerName(payerName)
                         .payerAddress(payerAddress)
@@ -109,6 +115,10 @@ public class PaymentRowMapper implements ResultSetExtractor<List<Payment>> {
                         .paymentStatus(PaymentStatusEnum.fromValue(paymentStatus))
                         .fileStoreId(filesoreId)
                         .auditDetails(auditDetails)
+                        .bankName(bankName)
+                        .bankBranch(bankBranch)
+                        .subdivison(subdivison)
+                        .gstno(gstno)
                         .build();
 
 
