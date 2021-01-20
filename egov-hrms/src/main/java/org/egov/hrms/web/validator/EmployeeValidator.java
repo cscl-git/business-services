@@ -306,14 +306,14 @@ public class EmployeeValidator {
 		List<Assignment> currentAssignments = employee.getAssignments().stream().filter(assignment -> assignment.getIsCurrentAssignment()).collect(Collectors.toList());
 		List<Assignment> primaryAssignments = employee.getAssignments().stream().filter(assignment -> assignment.getIsPrimaryAssignment()).collect(Collectors.toList());
 		
-		if(currentAssignments.size() != 1){
-			//errorMap.put(ErrorConstants.HRMS_INVALID_CURRENT_ASSGN_CODE, ErrorConstants.HRMS_INVALID_CURRENT_ASSGN_MSG);
-		}
-		
 		if(currentAssignments.size() < 1){
 			errorMap.put(ErrorConstants.HRMS_MINIMUM_CURRENT_ASSGN_CODE, ErrorConstants.HRMS_MINIMUM_CURRENT_ASSGN_CODE_MSG);
 		}
-
+		
+		if(currentAssignments.size() > 1){
+			errorMap.put(ErrorConstants.HRMS_INVALID_CURRENT_ASSGN_CODE, ErrorConstants.HRMS_INVALID_CURRENT_ASSGN_MSG);
+		}
+		
 		if(primaryAssignments.size() < 1){
 			errorMap.put(ErrorConstants.HRMS_MINIMUM_PRIMARY_ASSGN_CODE, ErrorConstants.HRMS_MINIMUM_PRIMARY_ASSGN_MSG);
 		}
@@ -348,8 +348,8 @@ public class EmployeeValidator {
 				errorMap.put(ErrorConstants.HRMS_INVALID_DEPT_CODE, ErrorConstants.HRMS_INVALID_DEPT_MSG);
 			if(!mdmsData.get(HRMSConstants.HRMS_MDMS_DESG_CODE).contains(assignment.getDesignation()))
 				errorMap.put(ErrorConstants.HRMS_INVALID_DESG_CODE, ErrorConstants.HRMS_INVALID_DESG_MSG);
-            if( assignment.getIsCurrentAssignment() && null != assignment.getToDate())
-                errorMap.put(ErrorConstants.HRMS_INVALID_ASSIGNMENT_CURRENT_TO_DATE_CODE,ErrorConstants.HRMS_INVALID_ASSIGNMENT_CURRENT_TO_DATE_MSG);
+            /*if( assignment.getIsCurrentAssignment() && null != assignment.getToDate())
+                errorMap.put(ErrorConstants.HRMS_INVALID_ASSIGNMENT_CURRENT_TO_DATE_CODE,ErrorConstants.HRMS_INVALID_ASSIGNMENT_CURRENT_TO_DATE_MSG);*/
             if(!assignment.getIsCurrentAssignment() && null == assignment.getToDate())
                 errorMap.put(ErrorConstants.HRMS_INVALID_ASSIGNMENT_NON_CURRENT_TO_DATE_CODE,ErrorConstants.HRMS_INVALID_ASSIGNMENT_NON_CURRENT_TO_DATE_MSG);
 			if(null != assignment.getToDate() && assignment.getFromDate() > assignment.getToDate())
