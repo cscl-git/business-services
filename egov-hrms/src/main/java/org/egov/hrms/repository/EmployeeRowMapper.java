@@ -43,7 +43,7 @@ public class EmployeeRowMapper implements ResultSetExtractor<List<Employee>> {
 				currentEmployee = Employee.builder().id(rs.getLong("employee_id")).uuid(rs.getString("employee_uuid")).tenantId(rs.getString("employee_tenantid"))
 						.code(rs.getString("employee_code")).dateOfAppointment(null == rs.getObject("employee_doa")? null : rs.getLong("employee_doa"))
 						.dateOfSuperannuation(null == rs.getObject("employee_dos")? null : rs.getLong("employee_dos"))
-						.IsActive(rs.getBoolean("employee_active"))
+						.IsActive(rs.getBoolean("employee_active")).postDetailId(rs.getLong("employee_postDetailId")).hrmsCode(rs.getString("employee_hrmsCode"))
 						.employeeStatus(rs.getString("employee_status")).employeeType(rs.getString("employee_type")).auditDetails(auditDetails)
 						.jurisdictions(new ArrayList<Jurisdiction>()).assignments(new ArrayList<Assignment>()).user(new User())
 						.build();

@@ -124,6 +124,9 @@ public class Employee {
     @Valid
     @NotNull
     private User user;
+    
+    private Long postDetailId ;
 
-
+    private String hrmsCode;
+    
 }
