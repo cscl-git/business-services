@@ -48,6 +48,7 @@ import org.egov.common.contract.request.RequestInfo;
 import org.egov.hrms.config.PropertiesManager;
 import org.egov.hrms.model.AuditDetails;
 import org.egov.hrms.model.Employee;
+import org.egov.hrms.model.HrmsEmployee;
 import org.egov.hrms.model.enums.UserType;
 import org.egov.hrms.producer.HRMSProducer;
 import org.egov.hrms.repository.EmployeeRepository;
@@ -71,7 +72,14 @@ import java.util.stream.Collectors;
 @Service
 public class EmployeeService {
 
+	private static final String POST_DETAIL_ID = "postDetailId";
+	private static final String HRMS_CODE = "hrmsCode";
+			
+			
+			private Long postDetailId ;
 
+    private String hrmsCode; 
+	
 	@Autowired
 	private UserService userService;
 
@@ -335,6 +343,26 @@ public class EmployeeService {
 	}
 	
 	/**
+	 * Service method to update user. Performs the following:
+	 * 1. Enriches the employee object with required parameters.
+	 * 2. Updates user by making call to the user service.
+	 * 
+	 * @param employeeRequest
+	 * @return
+	 */
+	public EmployeeResponse updateEmployeeTable(List <Employee> existingEmp, HrmsEmployeeRequest request) {
+		existingEmp.stream().forEach(employee -> {
+			enrichUpdateEmpTableRequest(employee, request);
+		});
+		EmployeeRequest employeeRequest = EmployeeRequest.builder().requestInfo(request.getRequestInfo())
+				.employees(existingEmp).build();
+		hrmsProducer.push(propertiesManager.getUpdateEmployeeTopic(), employeeRequest);
+
+		return generateResponse(employeeRequest);
+	}
+	
+	
+	/**
 	 * Updates the user by making call to the user service.
 	 * 
 	 * @param employee
@@ -503,6 +531,31 @@ public class EmployeeService {
 				}
 			});
 
+		}
+	}
+	
+	/**
+	 * Enriches update request with required parameters.
+	 * @param employee
+	 * @param request
+	 */
+	private void enrichUpdateEmpTableRequest(Employee employee, HrmsEmployeeRequest request) {
+		HrmsEmployee existingEmpData = request.getEmployees().stream().filter(existingEmployee -> existingEmployee.getUuid().equals(employee.getUuid())).findFirst().get();
+
+		if(!employee.getIsActive())
+			employee.getUser().setActive(false);
+		else
+			employee.getUser().setActive(true);
+
+		for(String key: request.getFields()){
+			switch(key) {
+			  case POST_DETAIL_ID:
+				  employee.setPostDetailId(existingEmpData.getPostDetailId());
+			    break;
+			  case HRMS_CODE:
+				  employee.setHrmsCode(existingEmpData.getHrmsCode());
+			    break;
+			}
 		}
 	}
 

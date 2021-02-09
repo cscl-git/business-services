@@ -1,14 +1,26 @@
 package org.egov.hrms.web.validator;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
-import com.jayway.jsonpath.JsonPath;
 import org.apache.commons.lang3.StringUtils;
 import org.egov.common.contract.request.RequestInfo;
 import org.egov.common.contract.request.Role;
 import org.egov.hrms.config.PropertiesManager;
-import org.egov.hrms.model.*;
+import org.egov.hrms.model.Assignment;
+import org.egov.hrms.model.DeactivationDetails;
+import org.egov.hrms.model.DepartmentalTest;
+import org.egov.hrms.model.EducationalQualification;
+import org.egov.hrms.model.Employee;
+import org.egov.hrms.model.HrmsEmployee;
+import org.egov.hrms.model.Jurisdiction;
+import org.egov.hrms.model.ServiceHistory;
 import org.egov.hrms.service.EmployeeService;
 import org.egov.hrms.service.MDMSService;
 import org.egov.hrms.service.UserService;
@@ -17,16 +29,16 @@ import org.egov.hrms.utils.HRMSConstants;
 import org.egov.hrms.web.contract.EmployeeRequest;
 import org.egov.hrms.web.contract.EmployeeResponse;
 import org.egov.hrms.web.contract.EmployeeSearchCriteria;
+import org.egov.hrms.web.contract.HrmsEmployeeRequest;
 import org.egov.hrms.web.contract.UserResponse;
 import org.egov.tracer.model.CustomException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import lombok.extern.slf4j.Slf4j;
+import com.jayway.jsonpath.JsonPath;
 
 @Service
-@Slf4j
 public class EmployeeValidator {
 	
 	@Autowired
@@ -531,6 +543,24 @@ public class EmployeeValidator {
 		}
 
 
+	}/**
+	 * Validates the employee request for update. Validates the following:
+	 * 1. Performs employee validity.
+	 * 
+	 * @param request
+	 */
+	public List <Employee> validateUpdateEmployeeTable(HrmsEmployeeRequest request) {
+		Map<String, String> errorMap = new HashMap<>();
+		List <String> uuidList = request.getEmployees().stream().map(HrmsEmployee :: getUuid).collect(Collectors.toList()); 
+		EmployeeResponse existingEmployeeResponse = employeeService.search(EmployeeSearchCriteria.builder().uuids(uuidList).build(),request.getRequestInfo());
+		List <Employee> existingEmployees = existingEmployeeResponse.getEmployees();
+		if(existingEmployees.isEmpty()){
+					errorMap.put(ErrorConstants.HRMS_UPDATE_EMPLOYEE_NOT_EXIST_CODE, ErrorConstants.HRMS_UPDATE_EMPLOYEE_NOT_EXIST_MSG);
+		}
+		if(!CollectionUtils.isEmpty(errorMap.keySet())) {	
+			throw new CustomException(errorMap);
+		}
+		return existingEmployees;	
 	}
 
 	/**
