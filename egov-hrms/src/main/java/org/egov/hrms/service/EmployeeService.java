@@ -542,11 +542,6 @@ public class EmployeeService {
 	private void enrichUpdateEmpTableRequest(Employee employee, HrmsEmployeeRequest request) {
 		HrmsEmployee existingEmpData = request.getEmployees().stream().filter(existingEmployee -> existingEmployee.getUuid().equals(employee.getUuid())).findFirst().get();
 
-		if(!employee.getIsActive())
-			employee.getUser().setActive(false);
-		else
-			employee.getUser().setActive(true);
-
 		for(String key: request.getFields()){
 			switch(key) {
 			  case POST_DETAIL_ID:
