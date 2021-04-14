@@ -58,11 +58,11 @@ public class PaymentQueryBuilder {
             "            id, tenantid, totaldue, totalamountpaid, transactionnumber, transactiondate, " +
             "            paymentmode, instrumentdate, instrumentnumber,instrumentStatus, ifsccode, additionaldetails, " +
             "            paidby, mobilenumber, payername, payeraddress,narration, payeremail, payerid, " +
-            "            paymentstatus, createdby, createdtime, lastmodifiedby, lastmodifiedtime, bank_name, bank_branch, sub_divison, gst_no)" +
+            "            paymentstatus, createdby, createdtime, lastmodifiedby, lastmodifiedtime, bank_name, bank_branch, sub_divison, gst_no,servicename,collectedbyname)" +
             "            VALUES (:id, :tenantid, :totaldue, :totalamountpaid, :transactionnumber, :transactiondate, " +
             "            :paymentmode, :instrumentdate, :instrumentnumber, :instrumentStatus, :ifsccode, :additionaldetails," +
             "            :paidby, :mobilenumber, :payername, :payeraddress,:narration, :payeremail, :payerid, " +
-            "            :paymentstatus, :createdby, :createdtime, :lastmodifiedby, :lastmodifiedtime, :bank_name, :bank_branch, :sub_divison, :gst_no);";
+            "            :paymentstatus, :createdby, :createdtime, :lastmodifiedby, :lastmodifiedtime, :bank_name, :bank_branch, :sub_divison, :gst_no, :servicename, :collectedbyname);";
 
 
     public static final String INSERT_PAYMENTDETAIL_SQL = "INSERT INTO egcl_paymentdetail(" +
@@ -207,6 +207,8 @@ public class PaymentQueryBuilder {
         sqlParameterSource.addValue("bank_branch", payment.getBankBranch());
         sqlParameterSource.addValue("sub_divison", payment.getSubdivison());
         sqlParameterSource.addValue("gst_no", payment.getGstno());
+        sqlParameterSource.addValue("servicename", payment.getServicename());
+        sqlParameterSource.addValue("collectedbyname", payment.getCollectedbyname());
         
         return sqlParameterSource;
 

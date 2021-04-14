@@ -77,7 +77,8 @@ public class PaymentRowMapper implements ResultSetExtractor<List<Payment>> {
                 String bankBranch = rs.getString("bank_branch");
                 String subdivison = rs.getString("sub_divison");
                 String gstno = rs.getString("gst_no");
-
+                String servicename = rs.getString("servicename");
+                String collectedByName = rs.getString("collectedbyname");
 		//Added for narration
 	        String narration = rs.getString("narration");
 
@@ -119,6 +120,8 @@ public class PaymentRowMapper implements ResultSetExtractor<List<Payment>> {
                         .bankBranch(bankBranch)
                         .subdivison(subdivison)
                         .gstno(gstno)
+                        .servicename(servicename)
+                        .collectedbyname(collectedByName)
                         .build();
 
 

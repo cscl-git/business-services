@@ -120,6 +120,14 @@ public class Payment {
     @JsonProperty("subdivison")
     private String subdivison = null;
     
+    @Size(max=1000)
+    @JsonProperty("servicename")
+    private String servicename = null;
+    
+    @Size(max=1000)
+    @JsonProperty("collectedbyname")
+    private String collectedbyname = null;
+    
     @Size(max=100)
     @JsonProperty("gstno")
     private String gstno = null;
